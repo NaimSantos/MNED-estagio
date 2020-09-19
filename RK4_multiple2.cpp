@@ -16,14 +16,13 @@ int main(int argc, char* arg[]){
 	std::array<double, 2> Ys = {4.0, 6.0};
 	
 	solveRK4(h, xi, xf, Ys);
-	//std::cout << "y = " << Ys[0] << std::endl;
-	//std::cout << "z = " << Ys[1] << std::endl;
+
 }
 void solveRK4(const double h, double xi, const double xf, std::array<double, 2>& Ys){
 
 	const auto n = std::round((xf - xi) / h);//numero de intervalos a estimar
-	double k[2][4+1] = {0.0}; //last collumn used for the sum of the constants
-	//std::array<std::array<double, 4+1>, 2> k;
+	//double k[2][4+1] = {0.0}; //last collumn used for the sum of the constants
+	std::array<std::array<double, 4+1>, 2> k;
 
 	std::fstream printer {"output_rk4.csv", std::ios::app};
 	printer << "Solution via 4th Order Runge-Kutta Method.\n"; 
@@ -50,7 +49,7 @@ void solveRK4(const double h, double xi, const double xf, std::array<double, 2>&
 		Ys[0] = Ys[0] + k[0][4];
 		Ys[1] = Ys[1] + k[1][4];
 		xi = xi + h;
-		printer << i << ',' << xi-h << ',' << Ys[0] << ','  << Ys[1] << '\n';
+		printer << i << ',' << xi << ',' << Ys[0] << ','  << Ys[1] << '\n';
 		//std::cout << "x " << xi << ", y= " << Ys[0] << ", z= " << Ys[1] << std::endl;
 	}
 }
