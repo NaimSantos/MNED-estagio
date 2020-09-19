@@ -26,7 +26,7 @@ void solveRK4(double h, double xf, std::pair<double, double>& xy1, std::pair<dou
 	auto& y1 = xy1.second;
 	//auto& x2 = xy2.first;
 	auto& y2 = xy2.second;
-	auto n = static_cast<unsigned int>((xf - x1) / h);//numero de intervalos a estimar
+	auto n = std::round((xf - x1) / h);//numero de intervalos a estimar
 
 	double k1{0}, k2{0}, k3{0}, k4{0};
 	double l1{0}, l2{0}, l3{0}, l4{0};

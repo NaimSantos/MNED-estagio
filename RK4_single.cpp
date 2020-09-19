@@ -46,7 +46,7 @@ double solveEuler_M(double xi, double xf, double y0, double h){
 	return y0;
 }
 double solvePonto_Med(double x0,  double x, double y0, double h){
-	auto n = static_cast<unsigned int>((x - x0) / h);
+	auto n = std::round((x - x0) / h);
 	double k1{0}, k2{0};
 	double y = y0;
 
@@ -60,7 +60,7 @@ double solvePonto_Med(double x0,  double x, double y0, double h){
 	return y;
 }
 double solveHuen_C(double x0,  double x, double y0, double h){
-	auto n = static_cast<unsigned int>((x - x0) / h);
+	auto n = std::round((x - x0) / h);
 	double k1{0}, k2{0};
 	double y = y0;
 
@@ -74,7 +74,7 @@ double solveHuen_C(double x0,  double x, double y0, double h){
 	return y;
 }
 double solveRalston(double x0,  double x, double y0, double h){
-	auto n = static_cast<unsigned int>((x - x0) / h);
+	auto n = std::round((x - x0) / h);
 	double k1{0}, k2{0};
 	double y = y0;
 
@@ -88,7 +88,7 @@ double solveRalston(double x0,  double x, double y0, double h){
 	return y;
 }
 double solveRK3(double x0,  double x, double y0, double h){
-	auto n = static_cast<unsigned int>((x - x0) / h);
+	auto n = std::round((x - x0) / h);
 	double k1{0}, k2{0}, k3{0};
 	double y = y0;
 
@@ -103,7 +103,7 @@ double solveRK3(double x0,  double x, double y0, double h){
 	return y;
 }
 double solveRK4(double x0,  double x, double y0, double h){
-	auto n = static_cast<unsigned int>((x - x0) / h);
+	auto n = std::round((x - x0) / h);
 	double k1{0}, k2{0}, k3{0}, k4{0};
 	double y = y0;
 
@@ -119,7 +119,7 @@ double solveRK4(double x0,  double x, double y0, double h){
 	return y;
 }
 double solveRK5(double x0,  double x, double y0, double h){
-	auto n = static_cast<unsigned int>((x - x0) / h);
+	auto n = std::round((x - x0) / h);
 	double k1{0}, k2{0}, k3{0}, k4{0}, k5{0}, k6{0};
 	double y = y0;
 
