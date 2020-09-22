@@ -10,13 +10,18 @@ double f2(double x, double y, double z);
 void solveRK4(const double h, double xi, const double xf, std::array<double, 2>& Ys);
 
 int main(int argc, char* arg[]){
-	double xi {0.0};
+	/*double xi {0.0};
 	const double xf {2.0};
 	const double h {0.1};
 	std::array<double, 2> Ys = {4.0, 6.0};
+	*/
+	
+	double xi {0.0};
+	const double xf {0.3};
+	const double h {0.1};
+	std::array<double, 2> Ys = {0.0, 0.0};
 	
 	solveRK4(h, xi, xf, Ys);
-
 }
 void solveRK4(const double h, double xi, const double xf, std::array<double, 2>& Ys){
 
@@ -50,12 +55,14 @@ void solveRK4(const double h, double xi, const double xf, std::array<double, 2>&
 		Ys[1] = Ys[1] + k[1][4];
 		xi = xi + h;
 		printer << i << ',' << xi << ',' << Ys[0] << ','  << Ys[1] << '\n';
-		//std::cout << "x " << xi << ", y= " << Ys[0] << ", z= " << Ys[1] << std::endl;
+		std::cout << "x= " << std::setprecision(10) << xi << ", y= " << Ys[0] << ", z= " << Ys[1] << std::endl;
 	}
 }
 double f1(double x, double y, double z){
-	return -0.5*y;
+	//return -0.5*y;
+	return -z;
 }
 double f2(double x, double y, double z){
-	return 4 - 0.3*z - 0.1*y;
+	//return 4 - 0.3*z - 0.1*y;
+	return 1 - z - y;
 }
