@@ -14,7 +14,8 @@ double fxy(double x, double y);
 
 int main(int argc, char* argv[]){
 	
-	double x0{0.0}, x{0.2}, y0{1.0}, h{0.1};
+	//double x0{0.0}, x{0.2}, y0{1.0}, h{0.1};
+	double x0{0.0}, x{2.0}, y0{0.5}, h{0.5};
 
 	auto res1 = solveEuler(x0, x, y0, h);
 	auto res2 = solveEuler_Mel(x0, x, y0, h);
@@ -32,12 +33,13 @@ int main(int argc, char* argv[]){
 	std::cout << "solveRK3: " << res6 << std::endl;
 	std::cout << "solveRK4: " << res7 << std::endl;
 	std::cout << "solveRK5: " << res8 << std::endl;
-	
+
 }
 double fxy(double x, double y){//dy/dx, a função conhecida
 	//return 4*std::exp(0.8*x) - 0.5*y;
 	//return - y + 1 - x;
-	return x*x*x*std::exp(-2*x) - 2*y;
+	//return x*x*x*std::exp(-2*x) - 2*y;
+	return y - x*x + 1; //exemplo de aula para rk4
 }
 double solveEuler(double xi, double xf, double y0, double h){
 	auto n = std::round((xf - xi) / h) ;
