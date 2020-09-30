@@ -26,7 +26,7 @@ int main(int argc, char* arg[]){
 void solveRK4(const double h, double xi, const double xf, std::array<double, 2>& Ys){
 
 	const auto n = std::round((xf - xi) / h);//numero de intervalos a estimar
-	//double k[2][4+1] = {0.0}; //last collumn used for the sum of the constants
+	//double k[2][4+1] = {0.0}; //ultima coluna para a soma dos ks
 	std::array<std::array<double, 4+1>, 2> k;
 
 	std::fstream printer {"output_rk4.csv", std::ios::app};
