@@ -1,7 +1,7 @@
 #include <iostream>
-#include <cmath>
+#include <cmath>	//para funções trigonometricas, logaritmicas e exponencial
 #include <array>
-#include <fstream>
+#include <fstream> //std::fstream
 #include <iomanip>	//std::setprecision
 //#include <functional>	//std::function
 
@@ -10,11 +10,6 @@ double f2(double x, double y, double z);
 void solveRK4(const double h, double xi, const double xf, std::array<double, 2>& Ys);
 
 int main(int argc, char* arg[]){
-	/*double xi {0.0};
-	const double xf {2.0};
-	const double h {0.1};
-	std::array<double, 2> Ys = {4.0, 6.0};
-	*/
 	
 	double xi {0.0};
 	const double xf {0.3};
