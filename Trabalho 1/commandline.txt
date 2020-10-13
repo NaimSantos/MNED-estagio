@@ -1,0 +1,3 @@
+g++ -std=c++17 -o RK4_T1.exe RK4_T1.cpp
+RK4_T1.exe
+gnuplot plot.plt
