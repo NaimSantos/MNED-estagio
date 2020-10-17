@@ -2,7 +2,6 @@
 #include <cmath>
 #include <array>
 #include <fstream>
-//#include <iomanip>
 
 //Dados:
 const double Pr {10.0};
@@ -17,21 +16,14 @@ double f1(double tao, double x, double y, double z);
 double f2(double tao, double x, double y, double z);
 double f3(double tao, double x, double y, double z);
 void solveRK4(const double h, double t_i, const double t_f, std::array<double, 3>& S);
-/*Parâmetros:
-	h = passo do método de Runge-Kutta
-	t_i = tempo inicial de avaliação;
-	t_f = tempo final;
-	S = um array com 3 elementos, para armazenar as 3 variáveis avaliadas.
-*/
 
 int main(){
-
 	std::array<double, 3> S = {X_0, Y_0, Z_0};
 	solveRK4(Tao_delt, Tao_0, Tao_f, S);
 }
 void solveRK4(const double h, double t_i, const double t_f, std::array<double, 3>& S){
 
-	const auto n = std::round((t_f - t_i) / h); //número de intervalos a estimar
+	const auto n = std::round((t_f - t_i) / h);
 	std::array<std::array<double, 5>, 3> k; //4 constantes do RK4 + 1 coluna para a soma dos ks
 
 	std::fstream printer {"output_rk4.dat", std::ios::app};
@@ -42,7 +34,7 @@ void solveRK4(const double h, double t_i, const double t_f, std::array<double, 3
 	printer << "0 " << t_i << ' ' << S[0] << ' ' << S[1] << ' ' << S[2] << '\n';
 
 	for (size_t i {1}; i <= n ; i++){
-
+		
 		k[0][0] = f1(t_i, S[0], S[1], S[2]);
 		k[1][0] = f2(t_i, S[0], S[1], S[2]);
 		k[2][0] = f3(t_i, S[0], S[1], S[2]);
