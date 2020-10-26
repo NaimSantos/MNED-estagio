@@ -5,16 +5,12 @@ void GS_Solver(double** A, const int m, const int n, double* B, const unsigned i
 
 int main(){
 
+	//Matrizes e dimensões: 	A [dim1][dim2], B [dim1], C [dim1];
+
+	//Alocação:
 	const int dim1 = 2;
 	const int dim2 = 2;
 
-	/*Matrizes e dimensões:
-		A [dim1][dim2];
-		B [dim1];
-		C [dim1];
-	*/
-
-	//Alocação:
 	double** A{new double*[dim1] {}};
 	for (int i = 0; i < dim1; ++i)
 		A[i] = new double[dim2] {};
@@ -22,20 +18,20 @@ int main(){
 	double* B = new double [dim1];
 	double* X = new double [dim1];
 
-	const double eps = 0.0001; //define o erro permitido, usado como criterio de parada
+	/*Exemplo:
+		--> 2x1+ x2 = 1;
+		--> 3x1+ 4x2 = -1
 
-	/*Exemplo de sistema:
-		2x1+ x2 = 1
-		3x1+ 4x2 = -1
-	tolerancia: 10^-4
-	vetor inicial: x= [0, 0]
+		tolerancia: 10^-4
+		vetor inicial: x = [0, 0]
 	*/
 
 	A[0][0] = 2; A[0][1] = 1;
 	A[1][0] = 3; A[1][1] = 4;
-
+	
 	B[0]= 1.0; B[1]=-1.0;
 	X[0]= 0.0; X[1]=0.0;
+	const double eps = 0.0001; //define o erro permitido, usado como criterio de parada
 
 	GS_Solver(A, dim1, dim2, B, dim1, eps, X);
 
@@ -48,7 +44,10 @@ int main(){
 
 	return 0;
 }
-/*Parâmetros:
+
+/*Solver para o Método de Gauss-Siedel
+- Problema do tipo: Ax=B
+- Parâmetros:
 	A: matriz de coeficientes, no tamanho m x n
 	m, n: número de linhas e colunas de A, respectivamente
 	B: matriz de termos independentes
@@ -56,6 +55,7 @@ int main(){
 	eps: tolerância
 	X: matriz com as estimativas iniciais, onde serão escritos os resultados
 */
+
 void GS_Solver(double** A, const int m, const int n, double* B, const unsigned int n_eq, const float eps, double* X){
 
 	double Y[n_eq] = {};	//matrix auxiliar, necessária para estimar o erro de uma iteracao a outra
