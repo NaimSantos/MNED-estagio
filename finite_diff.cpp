@@ -20,20 +20,28 @@ double fdiff_c_2nd(double x, double h);
 double fdiff_c_2nd_v2(double x, double h);
 
 int main(int argc, char* arg[]){
-	double h = 0.25;
-	double x = 0.5;
+	double h = 0.1;
+	double x = 2.0;
 
+	auto adiff1 = fdiff_a_1st(x, h);
 	auto adiff2 = fdiff_a_1st_v2(x, h);
+	auto rdiff1 = fdiff_r_1st(x, h);
 	auto rdiff2 = fdiff_r_1st_v2(x, h);
+	auto cdiff1 = fdiff_c_1st(x, h);
 	auto cdiff2 = fdiff_c_1st_v2(x, h);
 
-	std::cout <<  "Resultado via differencas finitas avancada : " << adiff2 << std::endl;
-	std::cout <<  "Resultado via differencas finitas recuada : " << rdiff2 << std::endl;
-	std::cout <<  "Resultado via differencas finitas centrada : " << cdiff2 << std::endl;
+	std::cout <<  "Resultado por diferencas finitas avancada 1 : " << adiff1 << std::endl;
+	std::cout <<  "Resultado por diferencas finitas avancada 2 : " << adiff2 << std::endl;
+	std::cout <<  "Resultado por diferencas finitas recuada 1 : " << rdiff1 << std::endl;
+	std::cout <<  "Resultado por diferencas finitas recuada 2 : " << rdiff2 << std::endl;
+	std::cout <<  "Resultado por diferencas finitas centrada 1 : " << cdiff1 << std::endl;
+	std::cout <<  "Resultado por diferencas finitas centrada 2 : " << cdiff2 << std::endl;
 }
 
 double f(double x){
-	return -0.1*(x*x*x*x) - 0.15*(x*x*x) - 0.5*(x*x) - 0.25*x + 1.2;
+	//return -0.1*(x*x*x*x) - 0.15*(x*x*x) - 0.5*(x*x) - 0.25*x + 1.2;
+	//return std::exp(x);
+	return x*std::log(x);
 }
 //Diferenças finitas avançada:
 double fdiff_a_1st(double x, double h){

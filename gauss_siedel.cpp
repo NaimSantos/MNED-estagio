@@ -1,13 +1,14 @@
-#include <iostream> 
+#include <iostream>
 #include <cmath>
 #include <fstream>
 
 void GS_Solver(double** A, const int m, const int n, double* B, const unsigned int n_eq, const float eps, double* X);
 
-int main(){ 
+int main(){
 
 	const int dim1 = 2;
 	const int dim2 = 2;
+	//Alocação das matrizes.
 
 	double** A{new double*[dim1] {}};
 	for (int i = 0; i < dim1; ++i)
@@ -15,7 +16,6 @@ int main(){
 
 	double* B = new double [dim1];
 	double* X = new double [dim1];
-
 
 	const double eps = 0.0001; //define o erro permitido
 
@@ -44,7 +44,7 @@ int main(){
 
 	GS_Solver(A, dim1, dim2, B, dim1, eps, X);
 
-	//desalocar as matrizes:
+	//Desalocar as matrizes:
 	for (int i = 0; i < dim1; ++i)
 		delete[] A[i];
 	delete[] A;
@@ -52,36 +52,31 @@ int main(){
 	delete[] X;
 
 	return 0;
-
 }
-/*Parametros:
+/*Parâmetros:
 	A: matriz de coeficientes, no tamanho m x n
-	m,n: numero de linhas e colunas de A, respectivamente
+	m, n: número de linhas e colunas de A, respectivamente
 	B: matriz de termos independentes
-	n_eq = numero de linhas de B
-	eps: tolerancia
+	n_eq = número de linhas de B. Também é o numero de equações no sistema
+	eps: tolerância
 	X: matriz com as estimativas iniciais, onde serão escritos os resultados
 */
 void GS_Solver(double** A, const int m, const int n, double* B, const unsigned int n_eq, const float eps, double* X){
 
 	double Y[n_eq] = {};	//matrix auxiliar, necessária para estimar o erro de uma iteracao a outra
 
-	int counter = 1;
-	/*
-		Contar iterações apenas pro caso da tolerancia nao ser atingida.
-		No entanto, se a matriz é diagonal dominante, a convergência é garantida
-	*/
+	int counter = 1; //Contar iterações apenas pro caso da tolerancia nao ser atingida. Se a matriz é diagonal dominante, a convergência é garantida
 	bool teste = false;
 
 	do{
 		std::cout << "Iteracao " << counter << std::endl;
-		for (int i=0; i<m; i++){
+		for (int i = 0; i < m; i++){
 			Y[i] = (B[i] / A[i][i]);
-			for (int j=0; j<n; j++){
+			for (int j = 0; j < n; j++){
 				if (j==i)
 					continue;
 				Y[i] = Y[i] - ((A[i][j] / A[i][i]) * X[j]);
-				teste = ((Y[i]-X[i])/Y[i]) < eps;
+				teste = true & (((Y[i] - X[i]) / Y[i]) < eps); //teste da tolerancia: atual-anterior/atual
 				X[i] = Y[i]; //escreve em X a estimativa encontrada
 			}
 			std::cout<< "x" << i + 1 << " = "<< Y[i] << std::endl;
@@ -89,5 +84,5 @@ void GS_Solver(double** A, const int m, const int n, double* B, const unsigned i
 		counter++;
 		std::cout << std::endl;
 	}
-	while(!teste && counter<20); 
+	while(!teste && counter<100);
 }

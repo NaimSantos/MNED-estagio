@@ -29,7 +29,7 @@ void solveRK4(const double h, double t_i, const double t_f, std::array<double, 3
 	std::fstream printer {"output_rk4.dat", std::ios::app};
 	printer << "Solution via 4th Order Runge-Kutta Method.\n"; 
 	printer << "t_inicial = " << t_i << ", total steps = " << n << ", t_final = " << t_f << '\n';
-	printer << "Stept X Y Z\n";
+	printer << "Step t X Y Z\n";
 
 	printer << "0 " << t_i << ' ' << S[0] << ' ' << S[1] << ' ' << S[2] << '\n';
 
