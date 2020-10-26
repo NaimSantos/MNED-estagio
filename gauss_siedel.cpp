@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cmath>
-#include <fstream>
 
 void GS_Solver(double** A, const int m, const int n, double* B, const unsigned int n_eq, const float eps, double* X);
 
@@ -8,8 +7,14 @@ int main(){
 
 	const int dim1 = 2;
 	const int dim2 = 2;
-	//Alocação das matrizes.
 
+	/*Matrizes e dimensões:
+		A [dim1][dim2];
+		B [dim1];
+		C [dim1];
+	*/
+
+	//Alocação:
 	double** A{new double*[dim1] {}};
 	for (int i = 0; i < dim1; ++i)
 		A[i] = new double[dim2] {};
@@ -17,25 +22,15 @@ int main(){
 	double* B = new double [dim1];
 	double* X = new double [dim1];
 
-	const double eps = 0.0001; //define o erro permitido
+	const double eps = 0.0001; //define o erro permitido, usado como criterio de parada
 
-	//Preencher aqui as matrizes A e B:
-	/*exemplos:
-	for (int i = 0; i < dim1; i++ ){
-		for (int j=0; j<dim2; j++){
-			A[i][j]=i+j;
-		}
-	}
-	for (int i = 0; i < dim1; i++ ){
-		B[i]=i+1;
-	}
-	*/
 	/*Exemplo de sistema:
 		2x1+ x2 = 1
 		3x1+ 4x2 = -1
 	tolerancia: 10^-4
 	vetor inicial: x= [0, 0]
 	*/
+
 	A[0][0] = 2; A[0][1] = 1;
 	A[1][0] = 3; A[1][1] = 4;
 
@@ -76,7 +71,7 @@ void GS_Solver(double** A, const int m, const int n, double* B, const unsigned i
 				if (j==i)
 					continue;
 				Y[i] = Y[i] - ((A[i][j] / A[i][i]) * X[j]);
-				teste = true & (((Y[i] - X[i]) / Y[i]) < eps); //teste da tolerancia: atual-anterior/atual
+				teste = true & (((Y[i] - X[i]) / Y[i]) < eps); //teste: atual-anterior/atual < erro
 				X[i] = Y[i]; //escreve em X a estimativa encontrada
 			}
 			std::cout<< "x" << i + 1 << " = "<< Y[i] << std::endl;
