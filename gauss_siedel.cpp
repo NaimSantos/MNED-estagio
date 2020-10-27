@@ -1,15 +1,14 @@
 #include <iostream>
+#include <iomanip>
 #include <cmath>
 
 void GS_Solver(double** A, const int m, const int n, double* B, const unsigned int n_eq, const float eps, double* X);
 
 int main(){
 
-	//Matrizes e dimensões: 	A [dim1][dim2], B [dim1], C [dim1];
-
-	//Alocação:
-	const int dim1 = 2;
-	const int dim2 = 2;
+	//Alocação: A[dim1][dim2], B[dim1], C[dim1];
+	const int dim1 = 3;
+	const int dim2 = 3;
 
 	double** A{new double*[dim1] {}};
 	for (int i = 0; i < dim1; ++i)
@@ -19,19 +18,19 @@ int main(){
 	double* X = new double [dim1];
 
 	/*Exemplo:
-		--> 2x1+ x2 = 1;
-		--> 3x1+ 4x2 = -1
-
+		{ 2x1+ x2 = 1;
+		{ 3x1+ 4x2 = -1
 		tolerancia: 10^-4
 		vetor inicial: x = [0, 0]
 	*/
+	A[0][0] = 3; A[0][1] = -0.1; A[0][2] = -0.2;
+	A[1][0] = 0.1; A[1][1] = 7.0; A[1][2] = -0.3;
+	A[2][0] = 0.3; A[2][1] = -0.2; A[2][2] = 10.0;
 
-	A[0][0] = 2; A[0][1] = 1;
-	A[1][0] = 3; A[1][1] = 4;
-	
-	B[0]= 1.0; B[1]=-1.0;
-	X[0]= 0.0; X[1]=0.0;
-	const double eps = 0.0001; //define o erro permitido, usado como criterio de parada
+
+	B[0]= 7.85; B[1]=-19.3; B[2] = 71.4;
+	X[0]= 0.0; X[1]=0.0; X[2]=0.0;
+	const double eps = 0.0000001; //define o erro permitido, usado como criterio de parada
 
 	GS_Solver(A, dim1, dim2, B, dim1, eps, X);
 
@@ -45,39 +44,34 @@ int main(){
 	return 0;
 }
 
-/*Solver para o Método de Gauss-Siedel
-- Problema do tipo: Ax=B
-- Parâmetros:
-	A: matriz de coeficientes, no tamanho m x n
-	m, n: número de linhas e colunas de A, respectivamente
-	B: matriz de termos independentes
-	n_eq = número de linhas de B. Também é o numero de equações no sistema
-	eps: tolerância
-	X: matriz com as estimativas iniciais, onde serão escritos os resultados
-*/
-
 void GS_Solver(double** A, const int m, const int n, double* B, const unsigned int n_eq, const float eps, double* X){
 
-	double Y[n_eq] = {};	//matrix auxiliar, necessária para estimar o erro de uma iteracao a outra
-
+	double Y[n_eq] = {};	//matrix auxiliar
+	double E[n_eq] = {}; //necessária para estimar o erro de uma iteração a outra
+	for (int i = 0; i < n_eq; i++)
+		E[i]=X[i];
+	
 	int counter = 1; //Contar iterações apenas pro caso da tolerancia nao ser atingida. Se a matriz é diagonal dominante, a convergência é garantida
 	bool teste = false;
 
-	do{
-		std::cout << "Iteracao " << counter << std::endl;
+	while(!teste && counter<50){
+		std::cout << "Iteracao " << std::setprecision(10) << counter << std::endl;
 		for (int i = 0; i < m; i++){
 			Y[i] = (B[i] / A[i][i]);
 			for (int j = 0; j < n; j++){
-				if (j==i)
+				if (j==i){
 					continue;
+				}
 				Y[i] = Y[i] - ((A[i][j] / A[i][i]) * X[j]);
-				teste = true & (((Y[i] - X[i]) / Y[i]) < eps); //teste: atual-anterior/atual < erro
 				X[i] = Y[i]; //escreve em X a estimativa encontrada
+				
 			}
-			std::cout<< "x" << i + 1 << " = "<< Y[i] << std::endl;
+			auto res = std::abs(((X[i] - E[i]) / X[i])) <= eps;
+			(!res) ? teste = false : teste = true;
+			std::cout<< "x" << i + 1 << " = " << Y[i] << std::endl;
+			E[i]=X[i];
 		}
 		counter++;
 		std::cout << std::endl;
 	}
-	while(!teste && counter<100);
 }
