@@ -17,20 +17,15 @@ int main(){
 	double* B = new double [dim1];
 	double* X = new double [dim1];
 
-	/*Exemplo:
-		{ 2x1+ x2 = 1;
-		{ 3x1+ 4x2 = -1
-		tolerancia: 10^-4
-		vetor inicial: x = [0, 0]
-	*/
-	A[0][0] = 3; A[0][1] = -0.1; A[0][2] = -0.2;
-	A[1][0] = 0.1; A[1][1] = 7.0; A[1][2] = -0.3;
-	A[2][0] = 0.3; A[2][1] = -0.2; A[2][2] = 10.0;
+	//Exemplo
+	A[0][0] = 4.0; A[0][1] = 1.0; A[0][2] = -1.0;
+	A[1][0] = 2.0; A[1][1] = 7.0; A[1][2] = 1.0;
+	A[2][0] = 1.0; A[2][1] = -3.0; A[2][2] = 12.0;
 
-
-	B[0]= 7.85; B[1]=-19.3; B[2] = 71.4;
+	B[0]= 3.0; B[1]=19.0; B[2] = 31.0;
 	X[0]= 0.0; X[1]=0.0; X[2]=0.0;
-	const double eps = 0.0000001; //define o erro permitido, usado como criterio de parada
+
+	const double eps = 0.00001; //define o erro permitido, usado como criterio de parada
 
 	GS_Solver(A, dim1, dim2, B, dim1, eps, X);
 
