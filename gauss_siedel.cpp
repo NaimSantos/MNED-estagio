@@ -46,10 +46,10 @@ int main(){
 
 void GS_Solver(double** A, const int m, const int n, double* B, const unsigned int n_eq, const float eps, double* X){
 
-	double Y[n_eq] = {};	//matrix auxiliar
-	double E[n_eq] = {}; //necessária para estimar o erro de uma iteração a outra
+	double* Y = new double [n_eq];	//matrix auxiliar
+	double* E = new double [n_eq]; //necessária para estimar o erro de uma iteração a outra
 	for (int i = 0; i < n_eq; i++)
-		E[i]=X[i];
+		E[i] = X[i];
 	
 	int counter = 1; //Contar iterações apenas pro caso da tolerancia nao ser atingida. Se a matriz é diagonal dominante, a convergência é garantida
 	bool teste = false;
@@ -74,4 +74,7 @@ void GS_Solver(double** A, const int m, const int n, double* B, const unsigned i
 		counter++;
 		std::cout << std::endl;
 	}
+	
+	delete[] E;
+	delete[] Y;
 }
