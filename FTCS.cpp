@@ -6,15 +6,14 @@
 #include <cstring>
 #include <cstdlib>
 
-
 int i4_modp(int i, int j);
 int i4_wrap(int ival, int ilo, int ihi);
-double *initial_condition(int nx, double x[]);
-double *r8vec_linspace_new(int n, double a, double b);
-void time_capture(int key);
+double* initial_condition(int nx, double x[]);
+double* r8vec_linspace_new(int n, double a, double b);
+void time_capture(int key = 1);	//usando um parametro padrao
 void writegnuplot(const std::string& filename);
 
-int main (){
+int main(){
 	double a, b, c;
 	
 	std::string data_filename = "dados_adveccao.txt";
@@ -56,7 +55,7 @@ int main (){
 	for (int i = 0; i < nt; i++ ){
 		for (int j = 0; j < nx; j++ ){
 			jm1 = i4_wrap (j-1, 0, nx-1);
-			jp1 = i4_wrap (j+1, 0, nx-1 );
+			jp1 = i4_wrap (j+1, 0, nx-1);
 			unew[j] = u[j] - c * dt / dx / 2.0 * (u[jp1] - u[jm1]);
 		}
 		for (int j = 0; j < nx; j++){
@@ -77,9 +76,9 @@ int main (){
 	std::cout << "\n  Resultados exportados para \"" << data_filename << "\"\n";
 
 	//Gerar um arquivo do gnuplot:
-	std::string command_filename = "comandos_adveccao.txt";
-	writegnuplot(command_filename);
-	std::cout << "  Comandos do Gnuplot exportados para \"" << command_filename << "\"\n\n";
+	std::string gnuplotfile = "comandos_adveccao.txt";
+	writegnuplot(gnuplotfile);
+	std::cout << "  Comandos do Gnuplot exportados para \"" << gnuplotfile << "\"\n\n";
 
 	//Desalocar as matrizes:
 	delete [] u;
@@ -87,24 +86,23 @@ int main (){
 	delete [] x;
 
 	//Encerrar:
-	time_capture(1);
+	time_capture();
 	return 0;
 }
 
 int i4_modp (int i, int j){
-	int value;
 
 	if (j == 0){
 		std::cerr << "\n";
 		std::cerr << "I4_MODP - Erro!\n";
 		std::cerr << "I4_MODP (I, J) chamado with J = " << j << "\n";
-		exit (1);
+		std::exit(1);
 	}
 
-	value = i % j;
+	int value = i % j;
 
 	if (value < 0){
-		value = value + abs ( j );
+		value = value + std::abs(j);
 	}
 
 	return value;
@@ -129,7 +127,7 @@ int i4_wrap (int ival, int ilo, int ihi){
 	return value;
 }
 
-double *initial_condition(int nx, double x[]){
+double* initial_condition(int nx, double x[]){
 
 	double *u = new double[nx];
 
@@ -145,7 +143,7 @@ double *initial_condition(int nx, double x[]){
 	return u;
 }
 
-double *r8vec_linspace_new(int n, double a_first, double a_last){
+double* r8vec_linspace_new(int n, double a_first, double a_last){
 	double *a = new double[n];
 
 	if (n==1){
@@ -168,9 +166,9 @@ void time_capture(int key){
 }
 void writegnuplot(const std::string& filename){
 	std::ofstream fwritter;
-	
+
 	fwritter.open(filename);
-	
+
 	fwritter << "set term png\n";
 	fwritter << "set output 'advection.png'\n";
 	fwritter << "set grid\n";
@@ -180,6 +178,6 @@ void writegnuplot(const std::string& filename){
 	fwritter << "set ylabel '<---Time--->'\n";
 	fwritter << "splot '" << filename << "' using 1:2:3 with lines\n";
 	fwritter << "quit\n";
-	
+
 	fwritter.close();
 }
