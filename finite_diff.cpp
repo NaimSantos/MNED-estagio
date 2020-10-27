@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include <fstream>
+#include <iomanip>
 
 double f(double x);
 
@@ -30,7 +30,7 @@ int main(int argc, char* arg[]){
 	auto cdiff1 = fdiff_c_1st(x, h);
 	auto cdiff2 = fdiff_c_1st_v2(x, h);
 
-	std::cout <<  "Resultado por diferencas finitas avancada 1 : " << adiff1 << std::endl;
+	std::cout <<  std::setprecision(10) << "Resultado por diferencas finitas avancada 1 : " << adiff1 << std::endl;
 	std::cout <<  "Resultado por diferencas finitas avancada 2 : " << adiff2 << std::endl;
 	std::cout <<  "Resultado por diferencas finitas recuada 1 : " << rdiff1 << std::endl;
 	std::cout <<  "Resultado por diferencas finitas recuada 2 : " << rdiff2 << std::endl;
