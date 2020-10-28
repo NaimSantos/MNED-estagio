@@ -1,2 +1,6 @@
 
 *.exe
+
+fd1d_advection_ftcs.cpp
+
+fd1d_advection_lax.cpp
