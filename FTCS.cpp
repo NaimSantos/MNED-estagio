@@ -2,29 +2,31 @@
 #include <cmath>
 #include <iomanip>
 #include <fstream>
-#include <ctime>
 #include <cstring>
 #include <cstdlib>
+
+#include "time_utilities.h"
 
 int i4_modp(int i, int j);
 int i4_wrap(int ival, int ilo, int ihi);
 double* initial_condition(int nx, double x[]);
 double* r8vec_linspace_new(int n, double a, double b);
-void time_capture(int key = 1);	//usando um parametro padrao
 void writegnuplot(const std::string& filename);
 
 int main(){
-	double a, b, c;
+	print_current_time();
+	auto start = capturetime();
+
 	
 	std::string data_filename = "dados_adveccao.txt";
 	std::ofstream data_output;
+
+	double a, b, c;
 	double dt, dx;
 	int jm1, jp1, nx, nt, nt_step, t;
 	double *u;
 	double *unew;
 	double *x;
-
-	time_capture(0);
 
 	//Definição de variáveis:
 	nx = 101;
@@ -73,12 +75,12 @@ int main(){
 
 	//Fechar o arquivo quando acabar de computar:
 	data_output.close();
-	std::cout << "\n  Resultados exportados para \"" << data_filename << "\"\n";
+	std::cout << "\n\tResultados exportados para \"" << data_filename << "\"\n";
 
-	//Gerar um arquivo do gnuplot:
-	std::string gnuplotfile = "comandos_adveccao.txt";
+	//Gerar um arquivo com comandos gnuplot:
+	std::string gnuplotfile = "comandos_adveccao.plt";
 	writegnuplot(gnuplotfile);
-	std::cout << "  Comandos do Gnuplot exportados para \"" << gnuplotfile << "\"\n\n";
+	std::cout << "\tComandos do Gnuplot exportados para \"" << gnuplotfile << "\"\n\n";
 
 	//Desalocar as matrizes:
 	delete [] u;
@@ -86,7 +88,9 @@ int main(){
 	delete [] x;
 
 	//Encerrar:
-	time_capture();
+	auto end = capturetime();
+	auto total = get_elapsed_time(start, end);
+	std::cout << "\nTotal execution time: " << total * 1e-06 << " s"<<std::endl;
 	return 0;
 }
 
@@ -157,25 +161,18 @@ double* r8vec_linspace_new(int n, double a_first, double a_last){
 	return a;
 }
 
-void time_capture(int key){
-	std::time_t now = std::time(nullptr);
-	
-	(key==0) ? (std::cout << "Inicio da execucao: ") : (std::cout << "Fim da execucao: ");
-	
-	std::cout << std::asctime(std::localtime(&now)) ;
-}
 void writegnuplot(const std::string& filename){
 	std::ofstream fwritter;
 
 	fwritter.open(filename);
 
 	fwritter << "set term png\n";
-	fwritter << "set output 'advection.png'\n";
+	fwritter << "set output 'AdvectionGraph.png'\n";
 	fwritter << "set grid\n";
 	fwritter << "set style data lines\n";
 	fwritter << "unset key\n";
-	fwritter << "set xlabel '<---X--->'\n";
-	fwritter << "set ylabel '<---Time--->'\n";
+	fwritter << "set xlabel 'X'\n";
+	fwritter << "set ylabel 'Time'\n";
 	fwritter << "splot '" << filename << "' using 1:2:3 with lines\n";
 	fwritter << "quit\n";
 
