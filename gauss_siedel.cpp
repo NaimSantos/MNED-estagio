@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <cmath>
 
-#include "alg_utilities.cpp"
+#include "alg_utilities.h"
 
 void GS_Solver(double** A, const int m, const int n, double* B, const unsigned int n_eq, const float eps, double* X);
 
