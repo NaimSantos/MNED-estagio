@@ -2,6 +2,8 @@
 #include <iomanip>
 #include <cmath>
 
+#include "alg_utilities.cpp"
+
 void GS_Solver(double** A, const int m, const int n, double* B, const unsigned int n_eq, const float eps, double* X);
 
 int main(){
@@ -26,6 +28,9 @@ int main(){
 	X[0]= 0.0; X[1]=0.0; X[2]=0.0;
 
 	const double eps = 0.00001; //define o erro permitido, usado como criterio de parada
+
+	//auto r = isdiagonaldom(A, dim1, dim2);
+	//std::cout << "r = " << r << std::endl;
 
 	GS_Solver(A, dim1, dim2, B, dim1, eps, X);
 
