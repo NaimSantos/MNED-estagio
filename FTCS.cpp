@@ -17,7 +17,7 @@ int main(){
 	print_current_time();
 	auto start = capturetime();
 
-	
+
 	std::string data_filename = "dados_adveccao.txt";
 	std::ofstream data_output;
 

@@ -54,12 +54,12 @@ void GS_Solver(double** A, const int m, const int n, double* B, const unsigned i
 		for (int i = 0; i < m; i++){
 			Y[i] = (B[i] / A[i][i]);
 			for (int j = 0; j < n; j++){
-				if (j==i){
+				if (j==i)
 					continue;
-				}
+
 				Y[i] = Y[i] - ((A[i][j] / A[i][i]) * X[j]);
 				X[i] = Y[i]; //escreve em X a estimativa encontrada
-				
+
 			}
 			auto res = std::abs(((X[i] - E[i]) / X[i])) <= eps;
 			(!res) ? teste = false : teste = true;
@@ -69,7 +69,7 @@ void GS_Solver(double** A, const int m, const int n, double* B, const unsigned i
 		counter++;
 		std::cout << std::endl;
 	}
-	
+
 	delete[] E;
 	delete[] Y;
 }

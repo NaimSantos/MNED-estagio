@@ -4,7 +4,7 @@
 #include <chrono>
 #include <ctime>
 
-class  CustomTimer
+class CustomTimer
 {
 	public:
 		CustomTimer(){
