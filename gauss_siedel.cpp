@@ -51,11 +51,12 @@ void GS_Solver(double** A, const int m, const int n, double* B, const unsigned i
 	for (int i = 0; i < n_eq; i++)
 		E[i] = X[i];
 	
-	int counter = 1; //Contar iterações apenas pro caso da tolerancia nao ser atingida. Se a matriz é diagonal dominante, a convergência é garantida
+	unsigned int counter = 1; //Contar iterações apenas pro caso da tolerancia nao ser atingida. Se a matriz é diagonal dominante, a convergência é garantida
 	bool teste = false;
 
-	while(!teste && counter<50){
-		std::cout << "Iteracao " << std::setprecision(10) << counter << std::endl;
+	while(!teste && counter<20){
+		teste = true;
+		std::cout << "Iteracao " << std::setprecision(10) << counter << '\n';
 		for (int i = 0; i < m; i++){
 			Y[i] = (B[i] / A[i][i]);
 			for (int j = 0; j < n; j++){
@@ -67,12 +68,12 @@ void GS_Solver(double** A, const int m, const int n, double* B, const unsigned i
 
 			}
 			auto res = std::abs(((X[i] - E[i]) / X[i])) <= eps;
-			(!res) ? teste = false : teste = true;
-			std::cout<< "x" << i + 1 << " = " << Y[i] << std::endl;
-			E[i]=X[i];
+			teste = teste & res;
+			std::cout<< "x" << i + 1 << " = " << Y[i] << '\n';
+			E[i] = X[i];
 		}
 		counter++;
-		std::cout << std::endl;
+		std::cout << '\n';
 	}
 
 	delete[] E;

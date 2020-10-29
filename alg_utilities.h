@@ -22,10 +22,11 @@ bool isdiagonaldom(double** M, const int nrows, const int ncol){
 	return true;
 }
 
+//print a bidimensional array of elementes of type T
 template <typename T>
-void printarray2D(T** M, const int row, const int col){
-	for(int i=0; i<row; i++){
-		for(int j=0; j<col; j++){
+void printarray2D(T** M, const int nrow, const int ncol){
+	for(int i=0; i<nrow; i++){
+		for(int j=0; j<ncol; j++){
 			std::cout << M[i][j] << ' ';
 		}
 		std::cout << '\n';	

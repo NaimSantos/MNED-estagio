@@ -1,66 +1,75 @@
 #include <iostream>
 #include <cmath>
+#include "alg_utilities.h"
 
-#define P 4
+void inputrow(int i, double** T, const int dim);
+void inputcol(int j, double** T, const int dim);
+void oput(double** T, int wd, int prsn, const int dim);
 
-typedef float newvar[P+1][P+1];
-void inputrow(int i, newvar u){
-
-	std::cout << "Informe o valor de u[" << i << ",j], j=1," << P;
-    for(int j=1; j<=P; j++)
-		std::cin >> u[i][j];
-
-}
-void inputcol(int j, newvar u){
-
-	std::cout << "Informe o valor de u[i," << j << "], i=2," << P-1;
-    for(int i=2; i<=P-1; i++)
-		std::cin >> u[i][j];
-
-}
-void oput(newvar u, int wd, int prsn){
-
-    for(int i=1; i<=P; i++){
-		for(int j=1; j<=P; j++){
-		std::cout << wd << ',' << prsn << ',' << u[i][j] << '\n';
-		}
-	}
-
-}
 int main(int argc, char* arg[]){
-	newvar u;
-	double mer, e, t;
 
-	for(int i=1; i<=P; i++)
-		for(int j=1; j<=P; j++)
-			u[i][j]=0;
-	printf("\nInforme a condicao de contorno:\n");
-	inputrow(1, u);
-	inputrow(P, u);
-	inputcol(1, u);
-	inputcol(P, u);
+	//Aloca a matriz da malha:
+	const int dim = 3;
+	double** T{new double*[dim] {nullptr}};
+	for (int i = 0; i < dim; ++i)
+		T[i] = new double[dim] {0.0};
 	
+	printarray2D<double>(T, dim, dim);
+
+
+	std::cout << "\nInforme a condicao de contorno:\n";
+	inputrow(1, T, dim);
+	inputrow(dim, T, dim);
+	inputcol(1, T, dim);
+	inputcol(dim, T, dim);
+
 	const double ar = 0.001;	//erro
 	const unsigned maxitr = 30;	//maximo de iterações
+	double temp = 0.0;
+	double mer = 0.0;
+	double erro = 0.0;
+	
 	for(int itr=1; itr<=maxitr; itr++){
-			mer=0.0;
-			for(int i=2; i<P-1; i++){
-				for(int j=2; j<=P-1; j++){
-					t = (u[i-1][j] + u[i+1][j] + u[i][j+1] + u[i][j-1]) / 4;
-					e = std::abs(u[i][j] - t);
-					if(e>mer)
-						mer = e;
-					u[i][j] = t;
-				}
-				std::cout << " Iteracao: " << itr << '\n';
-				oput(u, 9, 2);
-				if(mer<=ar){
-					std::cout <<" Solucao:\n";
-					oput(u, 8, 1);
-					return 0;
-				}
+		for(int i=2; i<dim-1; i++){
+			for(int j=2; j<=dim-1; j++){
+				temp = (T[i-1][j] + T[i+1][j] + T[i][j+1] + T[i][j-1]) / 4;
+				erro = std::abs(T[i][j] - temp);
+				if(erro>mer)
+					mer = erro;
+				T[i][j] = temp;
 			}
-		std::cout << "Numero de iteracoes insuficiente";
-		return 1;
+			std::cout << " Iteracao: " << itr << '\n';
+			oput(T, 9, 2, dim);
+			if(mer<=ar){
+				std::cout <<" Solucao:\n";
+				oput(T, 8, 1, dim);
+			}
+		}
 	}
+	//Desalocar a matrix:
+	for (int i = 0; i < dim; ++i)
+		delete[] T[i];
+	return 0;
+}
+void inputrow(int i, double** T, const int dim){
+
+	std::cout << "Informe o valor de T[" << i << ",j], j=1," << dim << ": ";
+	for(int j=1; j < dim; j++)
+		std::cin >> T[i][j];
+
+}
+void inputcol(int j, double** T, const int dim){
+
+	std::cout << "Informe o valor de T[i," << j << "], i=2," << dim-1 << ": ";
+	for(int i=2; i < dim-1; i++)
+		std::cin >> T[i][j];
+
+}
+void oput(double** T, int wd, int prsn, const int dim){
+
+	for(int i=1; i < dim; i++){
+		for(int j=1; j<dim; j++)
+			std::cout << wd << ',' << prsn << ',' << T[i][j] << '\n';
+	}
+
 }
