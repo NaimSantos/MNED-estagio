@@ -13,9 +13,8 @@ int main(int argc, char* arg[]){
 	double** T{new double*[dim] {nullptr}};
 	for (int i = 0; i < dim; ++i)
 		T[i] = new double[dim] {0.0};
-	
-	printarray2D<double>(T, dim, dim);
 
+	printarray2D<double>(T, dim, dim);
 
 	std::cout << "\nInforme a condicao de contorno:\n";
 	inputrow(1, T, dim);

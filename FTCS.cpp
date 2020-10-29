@@ -17,7 +17,6 @@ int main(){
 	print_current_time();
 	auto start = capturetime();
 
-
 	std::string data_filename = "dados_adveccao.txt";
 	std::ofstream data_output;
 
@@ -105,9 +104,8 @@ int i4_modp (int i, int j){
 
 	int value = i % j;
 
-	if (value < 0){
+	if (value < 0)
 		value = value + std::abs(j);
-	}
 
 	return value;
 }

@@ -21,7 +21,7 @@ double solveBisect(double a0, double b0){
 	}
 	double c0 {a0};
 	double eps {0.00001};
-	size_t i{1};
+	unsigned int i{1};
 	while ((b0-a0) >= eps || i<100){
 		c0 = (a0 + b0) / 2;
 		if (ftarget(c0) == 0)

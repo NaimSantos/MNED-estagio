@@ -42,7 +42,7 @@ void solveAdams(const double h, double xi, const double xf, std::vector<double>&
 
 	const auto n = std::round((xf - xi) / h);
 	std::cout << "Numero de iteracoes estimadas: " << n << std::endl;
-	
+
 	double milne_p {0.0}, milne_c {0.0};
 	auto x = xi;
 	for (size_t i = 4; i <= n; ++i){

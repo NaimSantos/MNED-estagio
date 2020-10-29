@@ -43,7 +43,7 @@ double get_elapsed_time(std::chrono::time_point<std::chrono::steady_clock> ti, s
 void print_current_time(){
 	std::time_t now = std::time(nullptr);
 
-	std::cout << std::asctime(std::localtime(&now)) ;
+	std::cout << std::asctime(std::localtime(&now));
 }
 
 #endif //CUSTOMTIMER_H

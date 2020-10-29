@@ -69,7 +69,7 @@ double solveEuler_Mel(double xi, double xf, double y0, double h){
 	}
 	return y;
 }
-double solveEuler_Mod(double xi,  double xf, double y0, double h){
+double solveEuler_Mod(double xi, double xf, double y0, double h){
 	auto n = std::round((xf - xi) / h);
 	if (n <=0 )
 		return NAN;
@@ -86,7 +86,7 @@ double solveEuler_Mod(double xi,  double xf, double y0, double h){
 	}
 	return y;
 }
-double solveHuen_C(double xi,  double xf, double y0, double h){
+double solveHuen_C(double xi, double xf, double y0, double h){
 	auto n = std::round((xf - xi) / h);
 	if (n <=0 )
 		return NAN;
@@ -103,7 +103,7 @@ double solveHuen_C(double xi,  double xf, double y0, double h){
 	}
 	return y;
 }
-double solveRalston(double xi,  double xf, double y0, double h){
+double solveRalston(double xi, double xf, double y0, double h){
 	auto n = std::round((xf - xi) / h);
 	if (n <=0 )
 		return NAN;
@@ -120,7 +120,7 @@ double solveRalston(double xi,  double xf, double y0, double h){
 	}
 	return y;
 }
-double solveRK3(double xi,  double xf, double y0, double h){
+double solveRK3(double xi, double xf, double y0, double h){
 	auto n = std::round((xf - xi) / h);
 	if (n <=0 )
 		return NAN;
@@ -138,7 +138,7 @@ double solveRK3(double xi,  double xf, double y0, double h){
 	}
 	return y;
 }
-double solveRK4(double xi,  double xf, double y0, double h){
+double solveRK4(double xi, double xf, double y0, double h){
 	auto n = std::round((xf - xi) / h);
 	if (n <=0 )
 		return NAN;
@@ -157,7 +157,7 @@ double solveRK4(double xi,  double xf, double y0, double h){
 	}
 	return y;
 }
-double solveRK5(double xi,  double xf, double y0, double h){
+double solveRK5(double xi, double xf, double y0, double h){
 	auto n = std::round((xf - xi) / h);
 	if (n <=0 )
 		return NAN;
