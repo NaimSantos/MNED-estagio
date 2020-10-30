@@ -1,10 +1,8 @@
 #ifndef GENERIC_ESTATIST_H
 #define GENERIC_ESTATIST_H
 
-#include <iostream>
 #include <cmath>
 #include <array>
-#include <iomanip>
 
 struct LinReg
 {
