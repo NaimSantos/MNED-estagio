@@ -80,7 +80,7 @@ LinReg RegressaoLinear(T1* A1, T2* A2, const unsigned int n){
 	//erro padrão em y:
 	double sum = 0.0;
 	for (int i = 0; i < n; i++){
-		sum = std::pow((A2[i] - ((a*A1[i]) + b)), 2) / (n-2);
+		sum += std::pow((A2[i] - ((a*A1[i]) + b)), 2) / (n-2);
 	}
 	auto eps = std::sqrt(sum);
 	lin_reg.eps = eps;
