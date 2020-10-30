@@ -12,10 +12,10 @@ struct LinReg
 };
 
 template <typename T>
-T average(T* A, const unsigned int length);
+T average(T* A, const unsigned int n);
 
 template <typename T>
-double desvio(T* A, const unsigned int n, const T mean);
+double desvio(T* A, const unsigned int n, const T aver);
 
 template <typename T1, typename T2>
 double covar(T1* A1, T2* A2, const unsigned int n);
@@ -42,10 +42,10 @@ T average(T* A, const unsigned int n){
 }
 
 template <typename T>
-double desvio(T* A, const unsigned int n, const T mean){
+double desvio(T* A, const unsigned int n, const T aver){
 	double sum = 0.0;
 	for (int i = 0; i < n ; i++){
-		sum += std::pow(A[i] - mean, 2) / (n-1);
+		sum += std::pow(A[i] - aver, 2) / (n-1);
 	}
 	return std::sqrt(sum);
 }
@@ -61,8 +61,8 @@ double covar(T1* A1, T2* A2, const unsigned int n){
 	}
 	return sum;
 }
-//Retorna um struct com 4 membros, .a, .b, .r, .eps, coeficiente a da regressão.
-//.a= inclinação, .b= interssecção, .r=coeficiente de ajuste quadratico e eps=erro;
+//Retorna um struct com 4 membros, .a, .b, .r, .eps, coeficientes 
+//.a= inclinação, .b= intersseção, .r=coeficiente de Pearson e .eps=erro padrao de y;
 template<typename T1, typename T2>
 LinReg RegressaoLinear(T1* A1, T2* A2, const unsigned int n){
 
