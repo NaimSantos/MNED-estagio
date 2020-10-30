@@ -2,15 +2,14 @@
 #include <cmath>
 #include <iomanip>
 #include <fstream>
-#include <cstring>
-#include <cstdlib>
+#include <string>
 
 #include "time_utilities.h"
 
-int i4_modp(int i, int j);
-int i4_wrap(int ival, int ilo, int ihi);
+int mod_posit(int i, int j);
+int wrapper(int ival, int ilo, int ihi);
 double* initial_condition(int nx, double x[]);
-double* r8vec_linspace_new(int n, double a, double b);
+double* lin_space_array(int n, double a, double b);
 void writegnuplot(const std::string& filename);
 
 int main(){
@@ -20,8 +19,7 @@ int main(){
 	std::string data_filename = "dados_adveccao.txt";
 	std::ofstream data_output;
 
-	double a, b, c;
-	double dt, dx;
+	double a, b, c, dt, dx;
 	int jm1, jp1, nx, nt, nt_step, t;
 	double *u;
 	double *unew;
@@ -32,7 +30,7 @@ int main(){
 	dx = static_cast<double>(1.0 / (nx-1));
 	a = 0.0;
 	b = 1.0;
-	x = r8vec_linspace_new(nx, a, b);
+	x = lin_space_array(nx, a, b);
 	nt = 1000;
 	dt = static_cast<double>(1.0 / nt);
 	c = 1.0;
@@ -55,8 +53,8 @@ int main(){
 
 	for (int i = 0; i < nt; i++ ){
 		for (int j = 0; j < nx; j++ ){
-			jm1 = i4_wrap (j-1, 0, nx-1);
-			jp1 = i4_wrap (j+1, 0, nx-1);
+			jm1 = wrapper(j-1, 0, nx-1);
+			jp1 = wrapper(j+1, 0, nx-1);
 			unew[j] = u[j] - c * dt / dx / 2.0 * (u[jp1] - u[jm1]);
 		}
 		for (int j = 0; j < nx; j++){
@@ -93,27 +91,22 @@ int main(){
 	return 0;
 }
 
-int i4_modp (int i, int j){
-
+int mod_posit(int i, int j){
 	if (j == 0){
-		std::cerr << "\n";
-		std::cerr << "I4_MODP - Erro!\n";
-		std::cerr << "I4_MODP (I, J) chamado with J = " << j << "\n";
+		std::cerr << "I4_MODP(I, J) chamado with J = " << j << "\n";
 		std::exit(1);
 	}
-
-	int value = i % j;
-
+	int value = i%j;
 	if (value < 0)
 		value = value + std::abs(j);
 
 	return value;
 }
 
-int i4_wrap (int ival, int ilo, int ihi){
-	int jhi, jlo, value, wide;
+int wrapper(int ival, int ilo, int ihi){
+	int jhi, jlo, value;
 
-	if ( ilo<=ihi ){
+	if (ilo<=ihi){
 		jlo = ilo;
 		jhi = ihi;
 	}
@@ -122,9 +115,8 @@ int i4_wrap (int ival, int ilo, int ihi){
 		jhi = ilo;
 	}
 
-	wide = jhi + 1 - jlo;
-
-	(wide==1) ? (value = jlo) : (value = jlo + i4_modp (ival-jlo, wide));
+	int wide = jhi + 1 - jlo;
+	(wide==1) ? (value = jlo) : (value = jlo + mod_posit(ival-jlo, wide));
 
 	return value;
 }
@@ -145,7 +137,7 @@ double* initial_condition(int nx, double x[]){
 	return u;
 }
 
-double* r8vec_linspace_new(int n, double a_first, double a_last){
+double* lin_space_array(int n, double a_first, double a_last){
 	double *a = new double[n];
 
 	if (n==1){
