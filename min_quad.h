@@ -1,5 +1,5 @@
-#ifndef GENERIC_ESTATIST_H
-#define GENERIC_ESTATIST_H
+#ifndef LIN_REG_H
+#define LIN_REG_H
 
 #include <cmath>
 #include <array>
@@ -52,12 +52,11 @@ double covar(T1* A1, T2* A2, const unsigned int n){
 	}
 	return sum;
 }
-//Retorna um struct com 4 membros, .a, .b, .r, .eps, coeficientes 
-//.a= inclinação, .b= intersseção, .r=coeficiente de Pearson e .eps=erro padrao de y;
+//Retorna um struct com 4 componentes, coeficientes da regressão: a, b, r e eps
 template<typename T1, typename T2>
 LinReg RegressaoLinear(T1* A1, T2* A2, const unsigned int n){
 
-	LinReg lin_reg;
+	LinReg res;
 
 	auto covarxy = covar<T1, T2>(A1, A2, n);
 	auto xmed = average<T1>(A1, n);
@@ -67,15 +66,15 @@ LinReg RegressaoLinear(T1* A1, T2* A2, const unsigned int n){
 
 	//Inclinação:
 	auto a = (covarxy / (desvx*desvx));
-	lin_reg.a = a;
+	res.a = a;
 
 	//Interseção:
 	auto b = ymed - (a * xmed);
-	lin_reg.b = b;
+	res.b = b;
 
 	//coeficiente de correlação de Pearson
 	auto r = covarxy /( desvx * desvy);
-	lin_reg.r = r;
+	res.r = r;
 
 	//erro padrão em y:
 	double sum = 0.0;
@@ -83,9 +82,9 @@ LinReg RegressaoLinear(T1* A1, T2* A2, const unsigned int n){
 		sum += std::pow((A2[i] - ((a*A1[i]) + b)), 2) / (n-2);
 	}
 	auto eps = std::sqrt(sum);
-	lin_reg.eps = eps;
+	res.eps = eps;
 
 
-	return lin_reg;
+	return res;
 }
-#endif //GENERIC_ESTATIST_H
+#endif //LIN_REG_H
