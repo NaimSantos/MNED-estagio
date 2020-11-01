@@ -13,7 +13,7 @@ struct LinReg
 };
 
 template <typename T>
-T average(T* A, const unsigned int n);
+double average(T* A, const unsigned int n);
 
 template <typename T>
 double desvio(T* A, const unsigned int n, const T aver);
@@ -25,8 +25,8 @@ template<typename T1, typename T2>
 LinReg RegressaoLinear(T1* A1, T2* A2, const unsigned int n);
 
 template <typename T>
-T average(T* A, const unsigned int n){
-	T sum {};
+double average(T* A, const unsigned int n){
+	double sum {};
 	for (int i = 0; i < n ; i++)
 		sum += A[i];
 	return sum / n;
