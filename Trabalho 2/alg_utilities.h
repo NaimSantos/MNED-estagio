@@ -39,29 +39,27 @@ void printarray2D(T** M, const int nrow, const int ncol){
 		std::cout << '\n';
 	}
 }
-
+/*
 //TDMA: TriDiagonal Matrix Algorithm ("Thomas")
-void tdma_solver(const std::vector<double>& a, const std::vector<double>& b,
-	const std::vector<double>& c,  const std::vector<double>& d, std::vector<double>& f)
-{
-	int N = d.size();
+void tdma_solver(const std::vector<double>& a, const std::vector<double>& b, std::vector<double>& c, const std::vector<double>& d,
+	std::vector<double>& f, std::vector<double>& c_temp, std::vector<double>& d_temp){
+	auto N = d.size();
 
-	std::vector<double> c_start(N, 0.0);
-	std::vector<double> d_start(N, 0.0);
- 
-	c_start[0] = c[0] / b[0];
-	d_start[0] = d[0] / b[0];
+	std::fill(c_temp.begin(), c_temp.end(), 0.0);
+	std::fill(d_temp.begin(), d_temp.end(), 0.0);
 
-	for (int i=1; i<N; i++){
-		double m = 1.0 / (b[i] - a[i] * c_start[i-1]);
-		c_start[i] = c[i] * m;
-		d_start[i] = (d[i] - a[i] * d_start[i-1]) * m;
+	c_temp[0] = c[0] / b[0];
+	d_temp[0] = d[0] / b[0];
+
+	for (int i = 1; i < N; i++){
+		double m = 1.0 / (b[i] - a[i] * c_temp[i-1]);
+		c_temp[i] = c[i] * m;
+		d_temp[i] = (d[i] - a[i] * d_temp[i-1]) * m;
 	}
-
-	for (int i=N-1; i-- > 0; ) {
-		f[i] = d_start[i] - c_start[i] * d[i+1];
+	for (int i = N-1; i > 0; i--){
+		f[i] = d_temp[i] - c_temp[i] * d[i+1];
 	}
 }
 
-
+*/
 #endif //HEADER_H

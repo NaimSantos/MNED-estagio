@@ -3,7 +3,8 @@
 #include <vector>
 #include <iomanip>
 #include <fstream>
-#include "alg_utilities.h"
+#include <algorithm>	//std::fill
+#include "alg_utilities.h"	//NPI
 
 double analytic_solution(double x, double t);
 void tdma_solver(const std::vector<double>& a, const std::vector<double>& b, std::vector<double>& c, const std::vector<double>& d,
@@ -35,8 +36,6 @@ constexpr auto coef_d3 = (1-beta)*(0.5*C*(sigma-1) + s);
 
 int main(int argc, char **argv) {
 
-	std::cout << "C = " << C << ", s= " << s << std::endl;
-
 	//Discretização em N intervalos:
 	const size_t N = 11;
 	//Inicialização dos vetores a serem utilizados:
@@ -46,19 +45,18 @@ int main(int argc, char **argv) {
 
 	std::vector<double> d(N, 0.0);
 	std::vector<double> f(N, 0.0);	//vetor solução
-	std::vector<double> c_temp(N, 0.0);	//temporarios, para evitar que a, b e c sejam sobreescritos
-	std::vector<double> d_temp(N, 0.0);	//temporarios, para evitar que a, b e c sejam sobreescritos
+	std::vector<double> c_temp(N, 0.0);	//temporarios, para evitar que os vetores sejam sobreescritos
+	std::vector<double> d_temp(N, 0.0);	//temporarios, para evitar que os vetores sejam sobreescritos
 
 	//Temperaturas iniciais fornecidas:
-	f[0] = 1.0; f[10] = 0.0;
-	d[0] = 1.0; d[10] = 0.0;
+	f[0] = 1.0;	d[0] = 1.0;
 
 	std::cout << std::setprecision(6) << "T = ";
 	for (auto &e: f){
 		std::cout << e << ' ';
 	}
-
 	std::cout << std::endl;
+
 	for (size_t i=1; i<N-1; i++) { //de d[1] ate d[10]
 		d[i] = coef_d1*f[i-1] + coef_d2*f[i] + coef_d3*f[i+1] ;
 	}
@@ -80,14 +78,14 @@ int main(int argc, char **argv) {
 	c = diagonal superior
 	d = termos independentes
 	f = vetor solução
-	c_temp e d_temp = vetores temporários para evitar que os vetores principais sejam sobbreescrios.
+	c_temp e d_temp = vetores temporários para evitar que os vetores principais sejam sobreescrios.
 */
 void tdma_solver(const std::vector<double>& a, const std::vector<double>& b, std::vector<double>& c, const std::vector<double>& d,
 	std::vector<double>& f, std::vector<double>& c_temp, std::vector<double>& d_temp){
 	auto N = d.size();
 
-	c_temp.assign(c.size(), 0.0);
-	d_temp.assign(d.size(), 0.0);
+	std::fill(c_temp.begin(), c_temp.end(), 0.0);
+	std::fill(d_temp.begin(), d_temp.end(), 0.0);
 
 	c_temp[0] = c[0] / b[0];
 	d_temp[0] = d[0] / b[0];
