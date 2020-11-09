@@ -1,4 +1,4 @@
-plot "output_thomas_analytic.dat" using 2:3 title "Crank-Nicolson" with lines
+plot "output_thomas_analytic.dat" using 2:3 title "Solucao Analitica" with lines
 set terminal pngcairo
 set output "Temperatura1D.png"
 set grid

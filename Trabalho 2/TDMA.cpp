@@ -1,33 +1,13 @@
 #include <iostream>
+#include <cmath>
 #include <vector>
 #include <iomanip>
+#include <fstream>
 //#include "alg_utilities.h"
 
-
-void tdma_solver(const std::vector<double>& a,
-	const std::vector<double>& b,
-	const std::vector<double>& c,
-	const std::vector<double>& d,
-	std::vector<double>& f)
-{
-	int N = d.size();
-
-	std::vector<double> c_start(N, 0.0);
-	std::vector<double> d_start(N, 0.0);
- 
-	c_start[0] = c[0] / b[0];
-	d_start[0] = d[0] / b[0];
-
-	for (int i=1; i<N; i++){
-		double m = 1.0 / (b[i] - a[i] * c_start[i-1]);
-		c_start[i] = c[i] * m;
-		d_start[i] = (d[i] - a[i] * d_start[i-1]) * m;
-	}
-
-	for (int i=N-1; i-- > 0; ) {
-		f[i] = d_start[i] - c_start[i] * d[i+1];
-	}
-}
+double analytic_solution(double x, double t);
+void tdma_solver(const std::vector<double>& a, const std::vector<double>& b, std::vector<double>& c, std::vector<double>& d, std::vector<double>& f);
+void print_analytic();
 
 //Dados:
 const double alfa = 0.1;
@@ -41,12 +21,12 @@ const double deltat = 0.05;
 const double deltax = 0.2;
 const double sigma = 0; //ou 1
 
-
 int main(int argc, char **argv) {
 
 	//Determinação dos coeficientes a serem utilizados:
 	const auto C = u*deltat/deltax;
 	const auto s = alfa*deltat/(deltax*deltax);
+	std::cout << "C = " << C << ", s= " << s << std::endl;
 
 	auto coef_a = 1+ 2*beta*(0.5*C*sigma + s);
 	auto coef_b = beta*(0.5*C*(sigma-1) + s);
@@ -78,7 +58,7 @@ int main(int argc, char **argv) {
 		std::cout << e << ' ';
 	}
 	std::cout << "\n\n";
-	
+
 	//Temperaturas iniciais fornecidas:
 	f[0] = 1.0; f[10] = 0.0;
 
@@ -104,6 +84,47 @@ int main(int argc, char **argv) {
 		}
 	}
 	std::cout << std::endl;
-
+	print_analytic();
 	return 0;
+}
+
+void tdma_solver(const std::vector<double>& a, const std::vector<double>& b, std::vector<double>& c,
+std::vector<double>& d, std::vector<double>& f){
+    auto N = d.size();
+    const unsigned int n = N - 1;
+    c[0] = c[0]/b[0];
+    d[0] = d[0]/b[0];
+
+    for (int i = 1; i < n; i++) {
+        c[i] /= b[i] - a[i]*c[i-1];
+        d[i] = (d[i] - a[i]*d[i-1]) / (b[i] - a[i]*c[i-1]);
+    }
+
+    d[n] = (d[n] - a[n]*d[n-1]) / (b[n] - a[n]*c[n-1]);
+
+    for (int i = n; i > 0; i--){
+        d[i] = d[i] - c[i]*d[i+1];
+    }
+}
+
+void print_analytic(){
+	std::fstream printer {"output_thomas_analytic.dat", std::ios::app};
+	printer << "Solucao analitica.\n";
+	printer << "Iteration x T\n";
+
+	int i = 0;
+	for (double x = -2;  x <= 2; x+= 0.02){
+		double temp = analytic_solution(x, 1.0);
+		printer << i << ' ' << x << ' ' << temp << "\n";
+		i++;
+	}
+}
+
+double analytic_solution(double x, double t){
+	const double NPI = 3.1415926535;
+	double sum = 0.0;
+	for (int k = 1; k < 100; k++){
+		sum += (1 / (2*k -1 )) * std::exp((-alfa * std::pow((2*k - 1), 2) * NPI * NPI * t)/L) * std::sin((2*k - 1) * NPI * (x - u*t)/L);
+	}
+	return 0.5 - (2/NPI) * sum;
 }
