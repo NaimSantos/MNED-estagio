@@ -11,3 +11,4 @@ Um repositório para alunos da disciplina Métodos Numéricos para Equações Di
 	* Runge-Kutta de 4ª ordem para um sistema de 3 equações diferenciais
 	* Método Forward Time, Central Space para um problema advectivo
 	* Utilitários para álgebra linear, regressão linear com mínimos quadrados e funções para obtenção de tempo de execução dos códigos
+	* TDMA: TriDiagonal Matrix Algorithm (Algoritmo de Thomas)
