@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 
-const double NPI = 3.1415926535;
+constexpr double NPI = 4 * std::atan(1);
 //coverts degree to radians:
 double torad(double value){
 	return value * NPI / 180 ;

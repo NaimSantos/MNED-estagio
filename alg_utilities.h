@@ -2,7 +2,14 @@
 #define GENERIC_ALG_H
 
 #include <cmath>
+#include <vector>
+#include <iostream>
 
+constexpr double NPI = 4 * std::atan(1);
+//coverts degree to radians:
+double torad(double value){
+	return value * NPI / 180 ;
+}
 //returns if a bidimensional array is diagonally domminant matrix
 bool isdiagonaldom(double** M, const int nrows, const int ncol){
 
@@ -33,17 +40,19 @@ void printarray2D(T** M, const int nrow, const int ncol){
 	}
 }
 
-void thomas_solver(const std::vector<double>& a, const std::vector<double>& b, const std::vector<double>& c,  const std::vector<double>& d, std::vector<double>& f)
+//TDMA: TriDiagonal Matrix Algorithm ("Thomas")
+void tdma_solver(const std::vector<double>& a, const std::vector<double>& b,
+	const std::vector<double>& c,  const std::vector<double>& d, std::vector<double>& f)
 {
-	size_t N = d.size();
+	int N = d.size();
 
 	std::vector<double> c_start(N, 0.0);
 	std::vector<double> d_start(N, 0.0);
-
+ 
 	c_start[0] = c[0] / b[0];
 	d_start[0] = d[0] / b[0];
 
-	for (int i=1; i<N; i++) {
+	for (int i=1; i<N; i++){
 		double m = 1.0 / (b[i] - a[i] * c_start[i-1]);
 		c_start[i] = c[i] * m;
 		d_start[i] = (d[i] - a[i] * d_start[i-1]) * m;
