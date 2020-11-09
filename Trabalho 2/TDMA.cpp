@@ -3,7 +3,7 @@
 #include <vector>
 #include <iomanip>
 #include <fstream>
-//#include "alg_utilities.h"
+#include "alg_utilities.h"
 
 double analytic_solution(double x, double t);
 void tdma_solver(const std::vector<double>& a, const std::vector<double>& b, std::vector<double>& c, std::vector<double>& d, std::vector<double>& f);
@@ -113,7 +113,7 @@ void print_analytic(){
 	printer << "Iteration x T\n";
 
 	int i = 0;
-	for (double x = -2;  x <= 2; x+= 0.02){
+	for (double x = -2;  x <= 2; x+= 0.2){
 		double temp = analytic_solution(x, 1.0);
 		printer << i << ' ' << x << ' ' << temp << "\n";
 		i++;
@@ -121,10 +121,9 @@ void print_analytic(){
 }
 
 double analytic_solution(double x, double t){
-	const double NPI = 3.1415926535;
 	double sum = 0.0;
-	for (int k = 1; k < 100; k++){
-		sum += (1 / (2*k -1 )) * std::exp((-alfa * std::pow((2*k - 1), 2) * NPI * NPI * t)/L) * std::sin((2*k - 1) * NPI * (x - u*t)/L);
+	for (int k = 1; k < 500; k++){
+		sum += (1/(2*k - 1)) * std::exp((-alfa*(2*k - 1)*(2*k - 1)*NPI*NPI*t)/(L*L)) * std::sin((2*k - 1)*NPI*(x - u*t)/L);
 	}
 	return 0.5 - (2/NPI) * sum;
 }

@@ -5,27 +5,11 @@
 #include <vector>
 #include <iostream>
 
-
-template<typename T>
-class Matrix {
-public:
-	typedef std::vector<T> Row; 
-private:
-	std::vector<Row> Mat;
-
-	unsigned int numberRows;
-	unsigned int numberColumns;
-public:
-	Matrix();
-	explicit Matrix( std::vector<Row>& vRows );
-	Matrix(unsigned int numRows, unsigned int numColumns);
-	Matrix(unsigned int numRows, unsigned int numColumns, T** data);
-	~Matrix();
-private:
-	void reserve(unsigned int numRows, unsigned int numColumns);
-};
-
-
+const double NPI = 3.1415926535;
+//coverts degree to radians:
+double torad(double value){
+	return value * NPI / 180 ;
+}
 //returns if a bidimensional array is diagonally domminant matrix
 bool isdiagonaldom(double** M, const int nrows, const int ncol){
 
