@@ -3,6 +3,10 @@
 #include <vector>
 #include <algorithm>
 
+/*TO DO:
+	usar vetores temporários c_temp e d_temp, para não escrever em c e d
+	usar f como o vetor de saída.
+*/
 using std::vector;
 
 void tdma_solver(const vector<double>& a, const vector<double>& b, vector<double>& c, vector<double>& d, vector<double>& f){
@@ -23,9 +27,9 @@ void tdma_solver(const vector<double>& a, const vector<double>& b, vector<double
 	}
 }
 int main(int argc, char* arg[]){
-	vector<double> a1 = {0, 1, 2, 3}; //diagonal inferior
-	vector<double> b1 = {2, 3, 5, 8};	//diagonal principal
-	vector<double> c1 = {1, 2, 1, 0};	//diagonal superior
+	vector<double> a1 = {0, 1, 2, 3};    //diagonal inferior
+	vector<double> b1 = {2, 3, 5, 8};    //diagonal principal
+	vector<double> c1 = {1, 2, 1, 0};    //diagonal superior
 	
 	vector<double> d1 = {7, 19, 31, 52};
 	vector<double> f1 = {7, 19, 31, 52};

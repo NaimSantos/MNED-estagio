@@ -3,8 +3,8 @@
 #include <vector>
 #include <iomanip>
 #include <fstream>
-#include <algorithm>	//std::fill
-#include "alg_utilities.h"	//NPI
+#include <algorithm>        //std::fill
+#include "alg_utilities.h"  //NPI
 
 using std::vector;
 
@@ -48,15 +48,17 @@ int main(int argc, char **argv) {
 	vector<double> c_temp(N, 0.0);     //vetor auxiliar, para evitar que c seja sobreescrito
 	vector<double> d_temp(N, 0.0);     //vetor auxiliar, para evitar que d seja sobreescrito
 
-	b[N-1] = 0;	c[0] = 0; //Estes 2 vetores na verdade tem 1 elemento a menos que a diagonal principal
-	d[0] = T1; d[N-1] = T2;	//Estes são os valores de temperatura conhecidos
+	b[N-1] = 0;              //Este vetor na verdade tem 1 elemento a menos que a diagonal principal
+	c[0] = 0;                //Este vetor na verdade tem 1 elemento a menos que a diagonal principal
+	d[0] = T1; d[N-1] = T2;  //Estes são os valores de temperatura conhecidos
+	f[0] = T1; f[N-1] = T2;  //Estes são os valores de temperatura conhecidos
 	
 	std::cout << std::setprecision(6) << "T = ";
 	for (auto &e: f)
 		std::cout << e << ' ';
 	std::cout << std::endl;
 
-	for (size_t i=1; i<N-1; i++) { //de d[1] ate d[10]
+	for (size_t i=1; i<N-1; i++) {//de d[1] ate d[10]
 		d[i] = coef_d1*f[i-1] + coef_d2*f[i] + coef_d3*f[i+1] ;
 	}
 
