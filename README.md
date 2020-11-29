@@ -1,5 +1,5 @@
 # MNED-estagio
-Um repositório para alunos da disciplina Métodos Numéricos para Equações Diferenciais (IPRJ) com implementações dos métodos mostrados no curso
+Um repositório para alunos da disciplina Métodos Numéricos para Equações Diferenciais (IPRJ) com implementações dos métodos mostrados no curso (e outras utilidades)
 
 ## Conteúdo:
 
@@ -9,6 +9,5 @@ Um repositório para alunos da disciplina Métodos Numéricos para Equações Di
 	* Método de Gauss-Siedel
 	* Método de Adams
 	* Runge-Kutta de 4ª ordem para um sistema de 3 equações diferenciais
-	* Método Forward Time, Central Space para um problema advectivo
-	* Utilitários para álgebra linear, regressão linear com mínimos quadrados e funções para obtenção de tempo de execução dos códigos
+	* Método Forward Time, Central Space
 	* TDMA: TriDiagonal Matrix Algorithm (Algoritmo de Thomas)
