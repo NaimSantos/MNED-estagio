@@ -5,31 +5,38 @@
 #include <vector>
 #include <iostream>
 
+
+//Uma estimativa para o valor de PI:
 constexpr double NPI = 4 * std::atan(1);
-//coverts degree to radians:
+
+
+//Conversão de graus para radianos:
 double torad(double value){
 	return value * NPI / 180 ;
 }
-//returns if a bidimensional array is diagonally domminant matrix
+
+
+//Retorna se um arranjo bidimensional é uma matriz diagonalmente dominante:
 bool isdiagonaldom(double** M, const int nrows, const int ncol){
 
 	for (int i = 0; i < nrows; i++){
 
 		double sum = 0.0;
-		double dia = std::abs(M[i][i]);
+		double diag = std::abs(M[i][i]);
 
 		for (int j = 0; j < ncol; j++){
 			if (i==j)
 				continue;
 			sum += std::abs(M[i][j]);
 		}
-		if (sum > dia)
+		if (sum > diag)
 			return false;
 	}
 	return true;
 }
 
-//prints a bidimensional array of elements of type T
+
+//Printa um arranjo bidimensional de elementos de um dado tipo T:
 template <typename T>
 void printarray2D(T** M, const int nrow, const int ncol){
 	for(int i=0; i<nrow; i++){
@@ -40,6 +47,7 @@ void printarray2D(T** M, const int nrow, const int ncol){
 	}
 }
 
+
 //TDMA: TriDiagonal Matrix Algorithm ("Thomas")
 void tdma_solver(const std::vector<double>& a, const std::vector<double>& b,
 	const std::vector<double>& c,  const std::vector<double>& d, std::vector<double>& f)
@@ -48,7 +56,7 @@ void tdma_solver(const std::vector<double>& a, const std::vector<double>& b,
 
 	std::vector<double> c_start(N, 0.0);
 	std::vector<double> d_start(N, 0.0);
- 
+
 	c_start[0] = c[0] / b[0];
 	d_start[0] = d[0] / b[0];
 

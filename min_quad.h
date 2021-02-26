@@ -6,24 +6,20 @@
 
 struct LinReg
 {
-	double a;
-	double b;
-	double r;
-	double eps;
+	double a {0.0};
+	double b {0.0};
+	double r {0.0};
+	double eps {0.0};
 };
 
-template <typename T>
-double average(T* A, const unsigned int n);
+//Protótipos:
+template <typename T> double average(T* A, const unsigned int n);
+template <typename T> double desvio(T* A, const unsigned int n, const T aver);
+template <typename T1, typename T2> double covar(T1* A1, T2* A2, const unsigned int n);
+template<typename T1, typename T2> LinReg RegressaoLinear(T1* A1, T2* A2, const unsigned int n);
 
-template <typename T>
-double desvio(T* A, const unsigned int n, const T aver);
 
-template <typename T1, typename T2>
-double covar(T1* A1, T2* A2, const unsigned int n);
-
-template<typename T1, typename T2>
-LinReg RegressaoLinear(T1* A1, T2* A2, const unsigned int n);
-
+//Funções auxiliares requeridas pela regressão:
 template <typename T>
 double average(T* A, const unsigned int n){
 	double sum {};
@@ -52,7 +48,16 @@ double covar(T1* A1, T2* A2, const unsigned int n){
 	}
 	return sum;
 }
-//Retorna um struct com 4 componentes, coeficientes da regressão: a, b, r e eps
+
+
+/*
+Retorna um struct com 4 componentes, coeficientes da regressão:
+	a: inclinação da reta
+	b: interseção da reta
+	r: coeficiente de correlação de Pearson
+	eps: erro padrão em y
+O parâmetro de template T1 é o tipo dos dados de 'x'; T2 é o tipo dos dados de 'y'.
+*/
 template<typename T1, typename T2>
 LinReg RegressaoLinear(T1* A1, T2* A2, const unsigned int n){
 
@@ -64,26 +69,21 @@ LinReg RegressaoLinear(T1* A1, T2* A2, const unsigned int n){
 	auto desvx = desvio<T1>(A1, n, xmed);
 	auto desvy = desvio<T2>(A2, n, ymed);
 
-	//Inclinação:
 	auto a = (covarxy / (desvx*desvx));
 	res.a = a;
 
-	//Interseção:
 	auto b = ymed - (a * xmed);
 	res.b = b;
 
-	//coeficiente de correlação de Pearson
 	auto r = covarxy /( desvx * desvy);
 	res.r = r;
 
-	//erro padrão em y:
 	double sum = 0.0;
 	for (int i = 0; i < n; i++){
 		sum += std::pow((A2[i] - ((a*A1[i]) + b)), 2) / (n-2);
 	}
 	auto eps = std::sqrt(sum);
 	res.eps = eps;
-
 
 	return res;
 }
